@@ -1,13 +1,15 @@
 import mongoose from "mongoose";
 
 const foodSchema = new mongoose.Schema({
-    name : { type :String , required:true},
-    description :{type:String,required:true},
-    // price:{type:Number,required:true},
-    // image:{type:String,required:true},
-    // category:{type:String,required:true},
+    fullName : { type :String },
+    fathername :{type:String,},
+    addrees :{type:String},
+    phone :{type:String},
+    age :{type:String},
+    speciality :{type:String},
+    appoiDate :{type:String}
 })
 
-const foodModel = mongoose.models.food || mongoose.model("food",foodSchema);   // if schema present it will use that one only if
+const foodModel = mongoose.models.food || mongoose.model("patiants",foodSchema);   // if schema present it will use that one only if
 
 export default foodModel

@@ -20,9 +20,9 @@ const foodRoutes = express.Router();
 // const upload = multer({storage:storage});
 //foodRoutes.post('/add',upload.single("Imange"),addFood);   // here image is the key name 
 //routes after end point
-foodRoutes.post('/add',addFood);
-foodRoutes.get('/getfood',getFood)
-foodRoutes.delete("/deletefood",deleteFood);
-foodRoutes.put("/updatefood",updateFood);
+foodRoutes.post('/addstudent',addFood);
+foodRoutes.get('/getStudent',getFood)
+foodRoutes.delete("/deleteStudent",deleteFood);
+foodRoutes.put("/updateStudent",updateFood);
 
 export default foodRoutes

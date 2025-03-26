@@ -3,9 +3,11 @@ import express from 'express'
 import cors from 'cors'
 import { connectDB } from './config/db.js';
 import foodRoutes from './routes/foodroute.js';
+import userRoutes from './routes/userroutes.js';
+import { loginRouter } from './routes/loginroutes.js';
 
 const app = express();
-const port = 4000 ;
+const port = 5000 ;
 
 app.use(express.json());
 app.use(cors());
@@ -13,7 +15,10 @@ app.use(cors());
 connectDB();
 
 //api end points
-app.use("/api/food",foodRoutes)
+app.use("/api",foodRoutes);
+app.use("/api",userRoutes);
+app.use("/api",loginRouter);
+
 
 app.get('/',(req,res)=>{
     res.send("Api Working")

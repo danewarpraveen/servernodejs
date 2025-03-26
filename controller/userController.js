@@ -1,25 +1,20 @@
-import foodModel from "../models/foodmodel.js";
+import userModel from "../models/userModel.js";
+const bcrypt = require("bcrypt");
 import fs from 'fs'
-const addFood = async (req, res) => {
+import { generateToken } from "../utils/jwtUtils.js";
 
-
+const adduser = async (req, res) => {
     // const imagevariable = `${req.file.filename}`
-
-    const food = new foodModel({
-        fullName: req.body.fullName,
-        fathername: req.body.fathername,
-        addrees: req.body.addrees,
-        phone: req.body.phone,
-        age: req.body.age,
-        speciality: req.body.speciality,
-        appoiDate: req.body.appoiDate
-        // price:req.body.price,
-        // category : req.body.category,
-        // image:imagevariable
+    const user = new userModel({
+        name: req.body.name,
+        email: req.body.email,
+        hashedpassword :req.body.hashedpassword,
+        role : "Customer"
+       
     })
-      console.log(food,">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
+      console.log(user,">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
     try {
-        await food.save();
+        await user.save();
         res.json({ success: true, message: "data stored success.<>>>>>>>>>>>>>>>>>>>>>>>>>>>>" })
     } catch (error) {
         console.log(error);
@@ -27,19 +22,44 @@ const addFood = async (req, res) => {
     }
 }
 
-export { addFood }
+export { adduser }
 
-const getFood = async (req, res) => {
+const getuser = async (req, res) => {
     try {
-        const food = await foodModel.find({});
-        res.json({ success: true, data: food })
+        const users = await userModel.find({});
+        res.json({ success: true, data: users })
     } catch (error) {
         console.log(error);
         res.json({ success: false, message: "error" })
     }
 }
-export { getFood }
+export { getuser }
 
+
+const login = async (req,res)=>{
+
+    try {
+        const {email,password} = req.body ;
+        const existingUser = await userModel.findOne({ email })
+
+        if(!existingUser){
+            throw new Error("user not found");
+        }
+
+        const isPassWordValid = bcrypt.compare(password,existingUser.password);
+
+        if(!isPassWordValid){
+            throw new Error("incorrect Password");
+        }
+        const token =  generateToken(existingUser);
+        res.json({ token : token});
+    } catch (error) {
+        throw new Error("Invalid Credentials");
+    }
+}
+
+
+export { login }
 
 const deleteFood = async (req, res) => {
     try {
